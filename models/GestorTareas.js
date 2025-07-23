@@ -1,5 +1,5 @@
 // Zona de importacion
-const { Tarea } = require('./Tarea.js');
+import { Tarea } from '../models/Tarea.js' // Clase principal Tarea 
 
 
 // Creacion de clase

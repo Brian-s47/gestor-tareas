@@ -18,7 +18,7 @@ Para reemplazar la representación de tareas como objetos literales en memoria p
 - **Relación entre clases**: Será utilizada en la siguiente fase con `GestorTareas`, que contendrá instancias de `Tarea`.
 
 ### 🧩 ¿Se aplicó algún patrón de diseño?
-- Se prepara el terreno para aplicar el **Factory Method** o **Composite** en futuras extensiones.
+- No se aplicó ningún patrón de diseño específico en esta fase. Sin embargo, se dejó estructurada la clase Tarea de forma que sea fácilmente adaptable a patrones como Factory Method si se desea automatizar su creación en futuras ampliaciones.
 
 ---
 
@@ -36,13 +36,25 @@ Para aislar la lógica de gestión de tareas (crear, eliminar, editar, listar) e
 - **Encapsulamiento**: La lista de tareas es privada. Se accede mediante métodos públicos.
 
 ### 🧩 ¿Se aplicó algún patrón de diseño?
-- Se planea aplicar el patrón **Singleton** en esta clase para asegurar que haya un solo gestor de tareas durante la ejecución.
+- Se aplicó de forma implícita el patrón Singleton simple, al mantener una única instancia de GestorTareas compartida mediante el módulo gestorGlobal.js. Esto asegura una única fuente de verdad para la lista de tareas durante la ejecución.
 
 ---
 
 ## ✅ Fase 3: Persistencia con sistema de archivos
 
-...
+📌 ¿Por qué se ejecutó esta fase?
+Para permitir que las tareas persistan entre ejecuciones del programa. Antes, los datos estaban en memoria y se perdían al cerrar. Ahora usamos archivos .json para mantener un almacenamiento duradero.
+
+🧠 ¿Qué principios SOLID se aplican?
+S (Single Responsibility): La lógica de persistencia se aisló en el módulo ArchivoTareas.js.
+
+D (Dependency Inversion): El gestor de tareas no depende directamente de fs, sino de una abstracción (guardarTareas() y cargarTareas()).
+
+🧱 ¿Qué conceptos de POO se implementaron?
+Las instancias de la clase Tarea son reconstruidas desde datos planos (objetos) al cargar desde archivo, encapsulando así los datos como objetos de dominio.
+
+🧩 ¿Se aplicó algún patrón de diseño?
+Repository Pattern (implícito): El módulo de archivos actúa como intermediario entre la lógica de negocio y el almacenamiento físico.
 
 ---
 

@@ -1,5 +1,5 @@
 // Zona de importacion
-const fs = require('fs/promises');
+import { promises as fs } from 'fs'
 
 // Creacion de variables generales
 const ruta = './data/tareas.json';
@@ -45,3 +45,6 @@ class Tarea{
         }
     }
 }
+
+// Zona de exportaciones
+export { Tarea }

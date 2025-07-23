@@ -3,6 +3,7 @@ import inquirer from 'inquirer'; // Para la generacion de menus y interaccion co
 import { v4 as uuidv4 } from 'uuid'; // Para generar ID unico
 import { gestor } from './gestorGlobal.js' //  Clase gestor de tareas que administra la gestion de las mismas
 import { Tarea } from '../models/Tarea.js' // Clase principal Tarea 
+import { guardarTareas } from '../utils/ArchivoTareas.js' // Gestor de Archivos para guardar en JSON local
 
 
 export async function agregarTarea() {
@@ -12,9 +13,10 @@ export async function agregarTarea() {
       message: 'Descripción de la tarea:' }
   ]);
 
-  const nueva = new Tarea(uuidv4(), descripcion.trim(), false)
-  gestor.agregarTarea(nueva)
-  console.log('✅ Tarea agregada.')
+  const nueva = new Tarea(uuidv4(), descripcion.trim(), false);
+  gestor.agregarTarea(nueva);
+  await guardarTareas(gestor.listarTareas());
+  console.log('✅ Tarea agregada.');
 
 }
 
@@ -46,6 +48,7 @@ export async function editarTarea() {
   ]);
 
   gestor.editarDescripcion(id, nuevaDescripcion);
+  await guardarTareas(gestor.listarTareas())
   console.log('✏️ Tarea actualizada.');
 }
 
@@ -66,5 +69,6 @@ export async function eliminarTarea() {
   ]);
 
   gestor.eliminarTareaPorId(id);
+  await guardarTareas(gestor.listarTareas());
   console.log('🗑️ Tarea eliminada.');
 }
