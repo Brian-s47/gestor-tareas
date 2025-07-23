@@ -27,6 +27,12 @@ export class GestorTareas{
         this.#tareas = this.#tareas.filter(tarea => tarea.getId() !== id)
     }
 
+    // Metodo para Completar tarea
+    completarTareaPorId(id){
+        const tarea = this.buscarPorId(id);
+        this.#tareas = this.#tareas.find(tarea => tarea.getId() !== id)
+    }
+
     // Metodo para Editar Descripcion
     editarDescripcion(id, nuevaDescripcion){
         const tarea = this.buscarPorId(id);
@@ -46,7 +52,7 @@ export class GestorTareas{
     }
 
     // Metodo para obtener como JSON
-    ontenerJSON(){
+    obtenerJSON(){
         return this.#tareas.map(tarea => tarea.serializar())
     }
 

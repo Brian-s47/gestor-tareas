@@ -1,5 +1,5 @@
 import mostrarMenu from './utils/menu.js';
-import { listarTareas, agregarTarea, editarTarea, eliminarTarea } from './controllers/tareasController.js';
+import { listarTareas, agregarTarea, editarTarea, eliminarTarea, completarTarea  } from './controllers/tareasController.js';
 
 async function main() {
   let salir = false;
@@ -21,8 +21,11 @@ async function main() {
         await eliminarTarea();
         break;
       case '5':
+        await completarTarea();
+        break;
+      case '6':
         salir = true;
-        console.log('👋 ¡Hasta pronto!');
+        console.log('👋 Gracias por usar nuestro sistema de gestion de tareas mejorado!');
         break;
     }
   }

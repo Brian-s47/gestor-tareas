@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "id": "00f9ccd3-4dfa-4f2d-8e56-8f7019882187",
+    "descripcion": "Almorzar",
+    "completada": true
+  },
+  {
+    "id": "a239a849-408e-429a-b5a6-93e9e85091a6",
+    "descripcion": "Comer",
+    "completada": false
+  },
+  {
+    "id": "e5e0601f-72a9-4ce5-8bfc-ba4fb74cff7d",
+    "descripcion": "Segundo-Desayuno",
+    "completada": false
+  }
+]

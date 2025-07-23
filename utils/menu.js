@@ -25,7 +25,8 @@ export default async function mostrarMenu() {
         { name: chalk.blue('2. Listar tareas'), value: '2' },
         { name: chalk.yellow('3. Editar tarea'), value: '3' },
         { name: chalk.red('4. Eliminar tarea'), value: '4' },
-        { name: chalk.gray('5. Salir'), value: '5' }
+        { name: chalk.white('5. Completar tarea'), value: '5' },
+        { name: chalk.gray('6. Salir'), value: '6' }
       ]
     }
   ]);

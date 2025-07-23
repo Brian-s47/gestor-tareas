@@ -119,3 +119,36 @@ export async function eliminarTarea() {
     { type: 'input', name: 'continuar', message: chalk.gray('\nPresiona Enter para continuar...') }
   ])
 }
+
+export async function completarTarea() {
+  const tareasPendientes = gestor.listarTareas().filter(tarea => !tarea.getCompletada())
+
+  if (tareasPendientes.length === 0) {
+    console.log(chalk.green('🎉 No hay tareas pendientes. ¡Buen trabajo!'))
+    await inquirer.prompt([
+      { type: 'input', 
+        name: 'continuar', 
+        message: chalk.gray('Presiona Enter para volver al menú...') }
+    ])
+    return
+  }
+
+  const { id } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'id',
+      message: chalk.magenta('Selecciona una tarea para marcar como completada:'),
+      choices: tareasPendientes.map(tarea => ({
+        name: tarea.getDescripcion(),
+        value: tarea.getId()
+      }))
+    }
+  ])
+
+  const tarea = gestor.buscarPorId(id)
+  tarea.setCompletada()
+
+  await guardarTareas(gestor.listarTareas())
+  console.log(chalk.green('✅ Tarea marcada como completada.'))
+}
+
