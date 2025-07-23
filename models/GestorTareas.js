@@ -28,7 +28,7 @@ export class GestorTareas{
     }
 
     // Metodo para Editar Descripcion
-    aditarDescripcion(id, nuevaDescripcion){
+    editarDescripcion(id, nuevaDescripcion){
         const tarea = this.buscarPorId(id);
         if(tarea && nuevaDescripcion.trim()){
             tarea.descripcion = nuevaDescripcion;

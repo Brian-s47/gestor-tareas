@@ -1,45 +1,42 @@
-import inquirer from 'inquirer';
-import { tareas } from '../data/tareas.js';
+// Zona de importacion
+import inquirer from 'inquirer'; // Para la generacion de menus y interaccion con usuario
+import { v4 as uuidv4 } from 'uuid'; // Para generar ID unico
+import { gestor } from './gestorGlobal.js' //  Clase gestor de tareas que administra la gestion de las mismas
+import { Tarea } from '../models/Tarea.js' // Clase principal Tarea 
+
 
 export async function agregarTarea() {
   const { descripcion } = await inquirer.prompt([
-    { type: 'input', name: 'descripcion', message: 'Descripción de la tarea:' }
+    { type: 'input', 
+      name: 'descripcion', 
+      message: 'Descripción de la tarea:' }
   ]);
 
-  const nueva = {
-    id: Date.now(),
-    descripcion: descripcion.trim(),
-    completada: false
-  };
+  const nueva = new Tarea(uuidv4(), descripcion.trim(), false)
+  gestor.agregarTarea(nueva)
+  console.log('✅ Tarea agregada.')
 
-  tareas.push(nueva);
-  console.log('✅ Tarea agregada.');
 }
 
 export function listarTareas() {
-  if (tareas.length === 0) {
-    console.log('📭 No hay tareas registradas.');
-    return;
-  }
-
-  console.log('\n📋 Lista de tareas:');
+  const tareas = gestor.listarTareas();
   tareas.forEach((tarea, i) => {
     const estado = tarea.completada ? '✅' : '❌';
-    console.log(`${i + 1}. [${estado}] ${tarea.descripcion}`);
+    console.log(`${i + 1}. Id:${tarea.id} \n Descripcion: ${tarea.descripcion} \n Estado: ${estado}`);
   });
 }
 
 export async function editarTarea() {
+  const tareas = gestor.listarTareas();
   if (tareas.length === 0) return console.log('⚠️ No hay tareas para editar.');
-
-  const { indice } = await inquirer.prompt([
+  const { id } = await inquirer.prompt([
     {
       type: 'list',
-      name: 'indice',
+      name: 'id',
       message: 'Selecciona una tarea para editar:',
-      choices: tareas.map((t, i) => ({
-        name: t.descripcion,
-        value: i
+      choices: tareas.map((tarea, i) => ({
+        name: tarea.descripcion,
+        value: tarea.getId()
       }))
     }
   ]);
@@ -48,25 +45,26 @@ export async function editarTarea() {
     { type: 'input', name: 'nuevaDescripcion', message: 'Nueva descripción:' }
   ]);
 
-  tareas[indice].descripcion = nuevaDescripcion.trim();
+  gestor.editarDescripcion(id, nuevaDescripcion);
   console.log('✏️ Tarea actualizada.');
 }
 
 export async function eliminarTarea() {
-  if (tareas.length === 0) return console.log('⚠️ No hay tareas para eliminar.');
+  const tareas = gestor.listarTareas();
+  if (tareas.length === 0) return console.log('⚠️ No hay tareas para editar.');
 
-  const { indice } = await inquirer.prompt([
+  const { id } = await inquirer.prompt([
     {
       type: 'list',
-      name: 'indice',
-      message: 'Selecciona una tarea para eliminar:',
-      choices: tareas.map((t, i) => ({
-        name: t.descripcion,
-        value: i
+      name: 'id',
+      message: 'Selecciona una tarea para editar:',
+      choices: tareas.map((tarea, i) => ({
+        name: tarea.descripcion,
+        value: tarea.getId()
       }))
     }
   ]);
 
-  tareas.splice(indice, 1);
+  gestor.eliminarTareaPorId(id);
   console.log('🗑️ Tarea eliminada.');
 }

@@ -42,15 +42,7 @@ Para aislar la lógica de gestión de tareas (crear, eliminar, editar, listar) e
 
 ## ✅ Fase 3: Persistencia con sistema de archivos
 
-### 📌 ¿Por qué se ejecutó esta fase?
-Para permitir que las tareas persistan entre ejecuciones. Se movió toda la lógica de lectura/escritura de JSON a un módulo separado (`ArchivoTareas.js`), siguiendo buenas prácticas.
-
-### 🧠 ¿Qué principios SOLID se aplican?
-- **S (Single Responsibility)**: La clase `Tarea` no se encarga de guardar sus datos. La persistencia es responsabilidad de otro módulo.
-- **D (Dependency Inversion)**: Se prepara el diseño para que el gestor de tareas dependa de una abstracción de almacenamiento (archivos o base de datos).
-
-### 🧩 ¿Se aplicó algún patrón de diseño?
-- **Repository Pattern (implícito)**: El módulo de archivo actúa como una "capa de acceso a datos" para el resto de la aplicación.
+...
 
 ---
 
