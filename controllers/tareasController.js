@@ -1,5 +1,7 @@
 // Zona de importacion
 import inquirer from 'inquirer'; // Para la generacion de menus y interaccion con usuario
+import chalk from 'chalk';
+import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid'; // Para generar ID unico
 import { gestor } from './gestorGlobal.js' //  Clase gestor de tareas que administra la gestion de las mismas
 import { Tarea } from '../models/Tarea.js' // Clase principal Tarea 
@@ -12,31 +14,34 @@ export async function agregarTarea() {
       name: 'descripcion', 
       message: 'Descripción de la tarea:' }
   ]);
-
+  if (_.isEmpty(descripcion.trim())) {
+    console.log(chalk.red('❌ No puedes agregar una tarea vacía.'))
+    return
+  }
   const nueva = new Tarea(uuidv4(), descripcion.trim(), false);
   gestor.agregarTarea(nueva);
   await guardarTareas(gestor.listarTareas());
-  console.log('✅ Tarea agregada.');
+  console.log(chalk.green('✅ Tarea agregada.'));
 
 }
 
 export function listarTareas() {
   const tareas = gestor.listarTareas();
   tareas.forEach((tarea, i) => {
-    const estado = tarea.completada ? '✅' : '❌';
-    console.log(`${i + 1}. Id:${tarea.id} \n Descripcion: ${tarea.descripcion} \n Estado: ${estado}`);
-  });
+    const estado = tarea.getCompletada() ? chalk.green('✅ Completada') : chalk.red('❌ Pendiente')
+    console.log(`${chalk.bold(`${i + 1}.`)} ${chalk.yellow(tarea.getDescripcion())} - ${estado}`)
+  })
 }
 
 export async function editarTarea() {
   const tareas = gestor.listarTareas();
-  if (tareas.length === 0) return console.log('⚠️ No hay tareas para editar.');
+  if (tareas.length === 0) return console.log(chalk.yellow('⚠️ No hay tareas para editar.'));
   const { id } = await inquirer.prompt([
     {
       type: 'list',
       name: 'id',
       message: 'Selecciona una tarea para editar:',
-      choices: tareas.map((tarea, i) => ({
+      choices: tareas.map((tarea) => ({
         name: tarea.descripcion,
         value: tarea.getId()
       }))
@@ -49,12 +54,12 @@ export async function editarTarea() {
 
   gestor.editarDescripcion(id, nuevaDescripcion);
   await guardarTareas(gestor.listarTareas())
-  console.log('✏️ Tarea actualizada.');
+  console.log(chalk.blue('✏️ Tarea actualizada.'));
 }
 
 export async function eliminarTarea() {
   const tareas = gestor.listarTareas();
-  if (tareas.length === 0) return console.log('⚠️ No hay tareas para editar.');
+  if (tareas.length === 0) return console.log(chalk.yellow('⚠️ No hay tareas para editar.'));
 
   const { id } = await inquirer.prompt([
     {
@@ -70,5 +75,5 @@ export async function eliminarTarea() {
 
   gestor.eliminarTareaPorId(id);
   await guardarTareas(gestor.listarTareas());
-  console.log('🗑️ Tarea eliminada.');
+  console.log(chalk.red('🗑️ Tarea eliminada.'));
 }
