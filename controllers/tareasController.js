@@ -22,6 +22,14 @@ export async function agregarTarea() {
     ])
     return
   }
+  const todas = gestor.listarTareas()
+  const existe = _.some(todas, t => t.getDescripcion().toLowerCase() === descripcion.trim().toLowerCase())
+
+  if (existe) {
+    console.log(chalk.yellow('⚠️ Ya existe una tarea con esa descripción.'))
+    await inquirer.prompt([{ type: 'input', name: 'c', message: 'Presiona Enter para continuar...' }])
+    return
+  }
   const nueva = new Tarea(uuidv4(), descripcion.trim(), false);
   gestor.agregarTarea(nueva);
   await guardarTareas(gestor.listarTareas());
@@ -31,13 +39,13 @@ export async function agregarTarea() {
 
 export async function listarTareas() {
   const tareas = gestor.listarTareas()
-
+  const tareasOrdenadas = _.orderBy(tareas, ['descripcion'], ['asc'])
   if (tareas.length === 0) {
     console.log(chalk.yellow('⚠️ No hay tareas disponibles.'))
   } else {
     console.log(chalk.bold.cyan('\n📋 Lista de tareas:\n'))
 
-    tareas.forEach((tarea, i) => {
+    tareasOrdenadas.forEach((tarea, i) => {
       const estado = tarea.getCompletada() ? chalk.green('✅ Completada') : chalk.red('❌ Pendiente')
       console.log(`${chalk.bold(`${i + 1}.`)} ${chalk.yellow(tarea.getDescripcion())} - ${estado}`)
     })

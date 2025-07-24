@@ -1,17 +1,32 @@
 [
   {
-    "id": "00f9ccd3-4dfa-4f2d-8e56-8f7019882187",
-    "descripcion": "Almorzar",
-    "completada": true
-  },
-  {
-    "id": "a239a849-408e-429a-b5a6-93e9e85091a6",
-    "descripcion": "Comer",
+    "id": "5372bf90-50e1-4893-9423-d65677cfa745",
+    "descripcion": "Desayunar",
     "completada": false
   },
   {
-    "id": "e5e0601f-72a9-4ce5-8bfc-ba4fb74cff7d",
-    "descripcion": "Segundo-Desayuno",
+    "id": "5c8a6db2-8e72-4809-92c9-d520835c1ed1",
+    "descripcion": "Segundo-Dasayuno",
+    "completada": false
+  },
+  {
+    "id": "bdaa3893-af97-4f35-8ef9-420c8defcd90",
+    "descripcion": "Media Mañana",
+    "completada": false
+  },
+  {
+    "id": "31b6822b-03d9-46e1-b990-a58357331a7e",
+    "descripcion": "Almuerzo",
+    "completada": false
+  },
+  {
+    "id": "8074c373-404e-4a50-849b-8e47c38be4e7",
+    "descripcion": "Onces",
+    "completada": false
+  },
+  {
+    "id": "cb9a3b08-1be3-4a49-b0c0-2161dfe1b7dd",
+    "descripcion": "Comida",
     "completada": false
   }
 ]

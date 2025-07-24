@@ -60,13 +60,18 @@ Repository Pattern (implícito): El módulo de archivos actúa como intermediari
 
 ## ✅ Fase 4: Integración de Lodash y mejoras UX
 
-...
+📌 ¿Por qué se ejecutó esta fase?
+Esta fase se enfocó en mejorar la experiencia de usuario en consola y enriquecer la lógica del sistema con herramientas modernas. Se buscó que la interacción con el programa fuera más amigable, clara y visualmente atractiva. Además, se integró la librería lodash para facilitar operaciones comunes como ordenamientos, validaciones y detección de duplicados de forma más eficiente y legible.
 
----
+🧠 ¿Qué principios SOLID se aplican?
+S (Single Responsibility): Los módulos de menú, lógica y datos mantienen responsabilidades separadas: visual, lógica de negocio y persistencia.
 
-## ✅ Fase 5: Patrones de diseño
+O (Open/Closed): Se extendieron funcionalidades sin modificar las clases base, por ejemplo, añadiendo validaciones y filtros usando Lodash sin alterar Tarea o GestorTareas.
 
-...
+🧩 ¿Se aplicó algún patrón de diseño?
+Command Pattern (implícito): Cada acción del menú representa un "comando" aislado (agregarTarea, editarTarea, completarTarea, etc.), ejecutado desde un controlador, lo que facilita la extensión y mantiene un flujo ordenado.
+
+Además, el diseño prepara el camino para aplicar un patrón Factory en futuras versiones si se crean distintos tipos de tareas (urgentes, programadas, etc.).
 
 ---
 
@@ -74,6 +79,7 @@ Repository Pattern (implícito): El módulo de archivos actúa como intermediari
 
 ```
 /controllers
+  gestorGlobar.js
   tareasController.js
 /models
   Tarea.js
@@ -84,6 +90,8 @@ Repository Pattern (implícito): El módulo de archivos actúa como intermediari
 /data
   tareas.json
 index.js
+README.md
+DescripcionTaller.md
 ```
 
 ---
