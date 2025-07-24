@@ -1,50 +1,51 @@
-// Zona de importacion
-import { promises as fs } from 'fs'
 
-// Creacion de variables generales
-const ruta = './data/tareas.json';
+import { obtenerDB } from '../config/db.js';
+import { ObjectId } from 'mongodb';
 
-// Creacion de clase
-class Tarea{
-    // Constructor de la Super clase "Tarea"
-    constructor(id, descripcion, completada){
-        // Atributos genericos para todas las tareas
-        this.id = id;
-        this.descripcion = descripcion.trim();
-        this.completada = completada;
-    }
-
-    // Zona de Metodos:
-
-    // Metodos para obtener atributos:
-    // Atributo: "id"
-    getId(){
-        return this.id;
-    }
-    // Atributo: "descripcion"
-    getDescripcion(){
-        return this.descripcion;
-    }
-    // Atributo: "completada"
-    getCompletada(){
-        return this.completada;
-    }
-
-    // Metodo para modificar estado
-    setCompletada(){
-        this.completada = true;
-    }
-
-    // Metodo para serializar
-    serializar(){
-        return{
-            id: this.id,
-            descripcion: this.descripcion,
-            completada: this.completada
-
-        }
-    }
+// Agregar tarea
+export async function crearTarea(descripcion) {
+  const db = obtenerDB();
+  const nueva = {
+    descripcion: descripcion.trim(),
+    completada: false,
+    creadaEn: new Date(),
+  };
+  const resultado = await db.collection('tareas').insertOne(nueva);
+  return { ...nueva, _id: resultado.insertedId };
 }
 
-// Zona de exportaciones
-export { Tarea }
+// Listar tareas
+export async function obtenerTareas() {
+  const db = obtenerDB();
+  return await db.collection('tareas').find().toArray();
+}
+
+// Buscar por ID
+export async function obtenerTareaPorId(id) {
+  const db = obtenerDB();
+  return await db.collection('tareas').findOne({ _id: new ObjectId(id) });
+}
+
+// Editar descripción
+export async function actualizarDescripcion(id, nuevaDescripcion) {
+  const db = obtenerDB();
+  await db.collection('tareas').updateOne(
+    { _id: new ObjectId(id) },
+    { $set: { descripcion: nuevaDescripcion.trim() } }
+  );
+}
+
+// Marcar como completada
+export async function marcarComoCompletada(id) {
+  const db = obtenerDB();
+  await db.collection('tareas').updateOne(
+    { _id: new ObjectId(id) },
+    { $set: { completada: true } }
+  );
+}
+
+// Eliminar tarea
+export async function eliminarTarea(id) {
+  const db = obtenerDB();
+  await db.collection('tareas').deleteOne({ _id: new ObjectId(id) });
+}

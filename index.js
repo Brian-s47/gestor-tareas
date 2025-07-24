@@ -1,7 +1,10 @@
+import { conectarDB } from './config/db.js';
+
 import mostrarMenu from './utils/menu.js';
-import { listarTareas, agregarTarea, editarTarea, eliminarTarea, completarTarea  } from './controllers/tareasController.js';
+import { listarTareas, agregarTarea, editarTarea, eliminarTareaUI as eliminarTarea, completarTarea  } from './controllers/tareasController.js';
 
 async function main() {
+  await conectarDB();
   let salir = false;
 
   while (!salir) {
